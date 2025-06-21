@@ -16,6 +16,15 @@ class _gggameState extends State<gggame> {
   @override
   Widget build(BuildContext context) {
     //Builds the RoutingPage which can re-route to different pages
-    return MaterialApp(debugShowCheckedModeBanner: false, home: RoutingPage());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: RoutingPage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blueAccent,
+          brightness: Brightness.dark,
+        ),
+      ),
+    );
   }
 }
