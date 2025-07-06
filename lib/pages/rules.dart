@@ -14,48 +14,51 @@ class _RulesPageState extends State<RulesPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 20.0),
-          ExpansionTile(
-            title: Center(child: Text("Classic Tic-Tac-Toe")),
-            collapsedBackgroundColor: const Color.fromARGB(255, 23, 52, 102),
-            children:
-                classicTTT.map((point) {
-                  return ListTile(
-                    leading: Icon(Icons.circle, size: 8),
-                    title: Text(point),
-                    visualDensity: VisualDensity.comfortable,
-                  );
-                }).toList(),
-          ),
-          SizedBox(height: 20.0),
-          ExpansionTile(
-            title: Center(child: Text("Tic-Tac-Lock")),
-            collapsedBackgroundColor: const Color.fromARGB(255, 23, 52, 102),
-            children:
-                tttLock.map((point) {
-                  return ListTile(
-                    leading: Icon(Icons.circle, size: 8),
-                    title: Text(point),
-                    visualDensity: VisualDensity.comfortable,
-                  );
-                }).toList(),
-          ),
-          SizedBox(height: 20.0),
-          ExpansionTile(
-            title: Center(child: Text("Gobblet Gobblers")),
-            collapsedBackgroundColor: const Color.fromARGB(255, 23, 52, 102),
-            children:
-                gobbletgobblerTTT.map((point) {
-                  return ListTile(
-                    leading: Icon(Icons.circle, size: 8),
-                    title: Text(point),
-                    visualDensity: VisualDensity.comfortable,
-                  );
-                }).toList(),
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: Column(
+          children: [
+            SizedBox(height: 20.0),
+            ExpansionTile(
+              title: Center(child: Text("Classic Tic-Tac-Toe")),
+              collapsedBackgroundColor: const Color.fromARGB(255, 30, 63, 120),
+              children:
+                  classicTTT.map((point) {
+                    return ListTile(
+                      leading: Icon(Icons.circle, size: 8),
+                      title: Text(point),
+                      visualDensity: VisualDensity.comfortable,
+                    );
+                  }).toList(),
+            ),
+            SizedBox(height: 20.0),
+            ExpansionTile(
+              title: Center(child: Text("Tic-Tac-Lock")),
+              collapsedBackgroundColor: const Color.fromARGB(255, 30, 63, 120),
+              children:
+                  tttLock.map((point) {
+                    return ListTile(
+                      leading: Icon(Icons.circle, size: 8),
+                      title: Text(point),
+                      visualDensity: VisualDensity.comfortable,
+                    );
+                  }).toList(),
+            ),
+            SizedBox(height: 20.0),
+            ExpansionTile(
+              title: Center(child: Text("Gobblet Gobblers")),
+              collapsedBackgroundColor: const Color.fromARGB(255, 30, 63, 120),
+              children:
+                  gobbletgobblerTTT.map((point) {
+                    return ListTile(
+                      leading: Icon(Icons.circle, size: 8),
+                      title: Text(point),
+                      visualDensity: VisualDensity.comfortable,
+                    );
+                  }).toList(),
+            ),
+          ],
+        ),
       ),
     );
   }

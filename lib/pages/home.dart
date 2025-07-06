@@ -23,9 +23,9 @@ class HomePage extends StatelessWidget {
                 children: List.generate(9, (index) {
                   return FloatingActionButton(
                     onPressed: () {
-                      print("Click on Play!");
+                      //print(index);
                     },
-                    splashColor: Colors.blueAccent,
+                    splashColor: const Color.fromARGB(255, 109, 137, 187),
 
                     //child: Text('${index + 1}'),
                   );

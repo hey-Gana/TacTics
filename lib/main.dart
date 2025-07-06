@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:gobblets_gobblers_game/routingpage.dart';
 
 void main() {
-  runApp(const gggame());
+  runApp(const GGgame());
 }
 
-class gggame extends StatefulWidget {
-  const gggame({super.key});
+class GGgame extends StatefulWidget {
+  const GGgame({super.key});
 
   @override
-  State<gggame> createState() => _gggameState();
+  State<GGgame> createState() => _GGgameState();
 }
 
-class _gggameState extends State<gggame> {
+class _GGgameState extends State<GGgame> {
   @override
   Widget build(BuildContext context) {
     //Builds the RoutingPage which can re-route to different pages

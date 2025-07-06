@@ -4,7 +4,7 @@ import 'package:gobblets_gobblers_game/Data/notifiers.dart';
 class Navbar extends StatelessWidget {
   Navbar({super.key});
 
-  int currentIndex = 0;
+  // int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
