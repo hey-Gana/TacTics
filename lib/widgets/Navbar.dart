@@ -1,10 +1,9 @@
+//Bottom Navigation bar
 import 'package:flutter/material.dart';
 import 'package:gobblets_gobblers_game/Data/notifiers.dart';
 
 class Navbar extends StatelessWidget {
-  Navbar({super.key});
-
-  // int currentIndex = 0;
+  const Navbar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +11,7 @@ class Navbar extends StatelessWidget {
       valueListenable: selectedPageNotifier,
       builder: (context, selectedPage, child) {
         return NavigationBar(
-          destinations: [
+          destinations: const [
             NavigationDestination(icon: Icon(Icons.home_filled), label: "Home"),
             NavigationDestination(
               icon: Icon(Icons.model_training_rounded),

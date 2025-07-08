@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gobblets_gobblers_game/pages/rules.dart';
 
-class ClassicPage extends StatelessWidget {
-  const ClassicPage({super.key});
+class Gobbletgobblers extends StatelessWidget {
+  const Gobbletgobblers({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text("Classic Tic-Tac-Toe")),
+        title: Center(child: const Text("Gobblet Gobblers")),
         actions: [
           IconButton(
             onPressed: () {
@@ -42,7 +42,10 @@ class ClassicPage extends StatelessWidget {
         ],
       ),
       body: const Center(
-        child: Text("Classic Game Page", style: TextStyle(fontSize: 24)),
+        child: Text(
+          "Goblet Gobblers Game Page",
+          style: TextStyle(fontSize: 24),
+        ),
       ),
     );
   }

@@ -5,26 +5,33 @@ void main() {
   runApp(const GGgame());
 }
 
-class GGgame extends StatefulWidget {
+class GGgame extends StatelessWidget {
   const GGgame({super.key});
 
-  @override
-  State<GGgame> createState() => _GGgameState();
-}
-
-class _GGgameState extends State<GGgame> {
   @override
   Widget build(BuildContext context) {
     //Builds the RoutingPage which can re-route to different pages
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: RoutingPage(),
+      home: const RootNavigatorWrapper(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blueAccent,
           brightness: Brightness.dark,
         ),
       ),
+    );
+  }
+}
+
+class RootNavigatorWrapper extends StatelessWidget {
+  const RootNavigatorWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      onGenerateRoute:
+          (_) => MaterialPageRoute(builder: (_) => const RoutingPage()),
     );
   }
 }

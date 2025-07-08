@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gobblets_gobblers_game/pages/classic.dart';
+import 'package:gobblets_gobblers_game/pages/gobbletgobblers.dart';
+import 'package:gobblets_gobblers_game/pages/xolock.dart';
 
 class PlayPage extends StatelessWidget {
   const PlayPage({super.key});
@@ -17,18 +19,14 @@ class PlayPage extends StatelessWidget {
               width: double.infinity,
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  // Navigate to the classic page
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ClassicPage(),
-                      ),
-                    );
-                  });
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ClassicPage(),
+                    ),
+                  );
                 },
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                label: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     "Classic Tic-Tac-Toe",
                     style: TextStyle(fontSize: 16),
@@ -36,30 +34,36 @@ class PlayPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             SizedBox(
               height: 100.0,
               width: double.infinity,
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  //print("Lock");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Xolock()),
+                  );
                 },
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                label: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text("Tic-Tac-Lock", style: TextStyle(fontSize: 16)),
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             SizedBox(
               height: 100.0,
               width: double.infinity,
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  //print("GG");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const Gobbletgobblers(),
+                    ),
+                  );
                 },
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                label: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     "Gobblet Gobblers",
                     style: TextStyle(fontSize: 16),
