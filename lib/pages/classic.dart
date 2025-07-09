@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:gobblets_gobblers_game/pages/rules.dart';
 
-class ClassicPage extends StatelessWidget {
+class ClassicPage extends StatefulWidget {
   const ClassicPage({super.key});
+
+  @override
+  State<ClassicPage> createState() => _ClassicPageState();
+}
+
+class _ClassicPageState extends State<ClassicPage> {
+  final int boardSize = 3;
+  late List<String> displayXO;
+  late List<int> rows; //Rows Counters list
+  late List<int> cols; //Columns counters list
+  int diag = 0;
+  int antiDiag = 0;
+  bool xturn = true; //First person to play as 'X'
+
+  //List for values inside the grid
+  @override
+  void initState() {
+    super.initState();
+    displayXO = List.filled(boardSize * boardSize, ' ');
+    rows = List.filled(boardSize, 0);
+    cols = List.filled(boardSize, 0);
+    diag = 0;
+    antiDiag = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +65,166 @@ class ClassicPage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text("Classic Game Page", style: TextStyle(fontSize: 24)),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Text(
+                  'Turn: ${xturn ? "X" : "O"}',
+                  style: const TextStyle(fontSize: 30),
+                ),
+              ),
+              Expanded(
+                flex: 5,
+                child: GridView.builder(
+                  itemCount: 9,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        _tapped(index);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            width: 5,
+                            color: const Color.fromARGB(255, 19, 26, 34),
+                          ),
+                          color: Colors.blueAccent,
+                        ),
+                        child: Center(
+                          child: Text(
+                            displayXO[index],
+                            style: TextStyle(fontSize: 64),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: 40.0,
+                  width: 80.0,
+                  child: FittedBox(
+                    child: FloatingActionButton(
+                      onPressed: _resetGame,
+                      child: Icon(Icons.restart_alt_rounded),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 40.0),
+            ],
+          ),
+        ),
       ),
     );
+  }
+
+  //Function to switch between X and O
+  void _tapped(int index) {
+    setState(() {
+      if (xturn && displayXO[index] == ' ') {
+        displayXO[index] = "X";
+      } else {
+        displayXO[index] = "O";
+      }
+      _checkWinner(index);
+      xturn = !xturn;
+    });
+  }
+
+  void _checkWinner(int index) {
+    //Converting index into 2D values of i,j ; i=row; j=col;
+    int row = index ~/ 3;
+    int col = index % 3;
+
+    //If index has X, 1 is added else 1 is subtracted in the index of the displayXO array
+    int add = displayXO[index] == 'X' ? 1 : -1;
+
+    //assigning the added value into rows array - row counter
+    rows[row] += add;
+    //assigning the added value into cols array - col counter
+    cols[col] += add;
+    //Checking for diagnals - diag counter
+    if (row == col) diag += add;
+    //checking for anti-diagnals - anti diag counter
+    if (row + col == boardSize - 1) antiDiag += add;
+
+    //if any of the values are equal to board size, then declare as winner
+    bool winner =
+        rows[row].abs() == boardSize ||
+        cols[col].abs() == boardSize ||
+        diag.abs() == boardSize ||
+        antiDiag.abs() == boardSize;
+
+    if (winner) {
+      _showWinDialog(displayXO[index]); //whichever index has won
+      return;
+    }
+    if (!displayXO.contains(" ")) {
+      _showDrawDialog();
+    }
+  }
+
+  //Alert Dialog Box for displaying winner
+  void _showWinDialog(String winner) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text("$winner Wins!"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _resetGame();
+                },
+                child: const Text("Play Again"),
+              ),
+            ],
+          ),
+    );
+  }
+
+  //Alert Dialog box for draw
+  void _showDrawDialog() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text("It's a Draw!"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _resetGame();
+                },
+                child: const Text("Play Again"),
+              ),
+            ],
+          ),
+    );
+  }
+
+  //Function to reset the game after clicking on play again
+  void _resetGame() {
+    setState(() {
+      displayXO = List.filled(boardSize * boardSize, ' ');
+      rows = List.filled(boardSize, 0);
+      cols = List.filled(boardSize, 0);
+      diag = 0;
+      antiDiag = 0;
+      xturn = true;
+    });
   }
 }
