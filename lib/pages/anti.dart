@@ -1,14 +1,15 @@
+//Need to change to suit Anti Tic Tac Rules
 import 'package:flutter/material.dart';
 import 'package:gobblets_gobblers_game/pages/rules.dart';
 
-class ClassicPage extends StatefulWidget {
-  const ClassicPage({super.key});
+class AntiPage extends StatefulWidget {
+  const AntiPage({super.key});
 
   @override
-  State<ClassicPage> createState() => _ClassicPageState();
+  State<AntiPage> createState() => _AntiPageState();
 }
 
-class _ClassicPageState extends State<ClassicPage> {
+class _AntiPageState extends State<AntiPage> {
   final int boardSize = 3;
   late List<String> displayXO;
   late List<int> rows; //Rows Counters list
@@ -17,7 +18,7 @@ class _ClassicPageState extends State<ClassicPage> {
   int antiDiag = 0;
   bool xturn = true; //First person to play as 'X'
 
-  //Initializing list for values inside the grid and the grid
+  //List for values inside the grid
   @override
   void initState() {
     super.initState();
@@ -32,7 +33,7 @@ class _ClassicPageState extends State<ClassicPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text("Classic Tic-Tac-Toe")),
+        title: Center(child: const Text("Anti Tic-Tac-Toe")),
         actions: [
           IconButton(
             onPressed: () {
@@ -80,9 +81,9 @@ class _ClassicPageState extends State<ClassicPage> {
               Expanded(
                 flex: 5,
                 child: GridView.builder(
-                  itemCount: boardSize * boardSize,
+                  itemCount: 9,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: boardSize,
+                    crossAxisCount: 3,
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
@@ -99,7 +100,6 @@ class _ClassicPageState extends State<ClassicPage> {
                           color: Colors.blueAccent,
                         ),
                         child: Center(
-                          //inside the tile
                           child: Text(
                             displayXO[index],
                             style: TextStyle(fontSize: 64),
@@ -132,7 +132,6 @@ class _ClassicPageState extends State<ClassicPage> {
   }
 
   //Function to switch between X and O
-  //Only if tile is empty, value will be accepted
   void _tapped(int index) {
     setState(() {
       if (xturn && displayXO[index] == ' ') {
@@ -163,14 +162,18 @@ class _ClassicPageState extends State<ClassicPage> {
     if (row + col == boardSize - 1) antiDiag += add;
 
     //if any of the values are equal to board size, then declare as winner
-    bool winner =
+    bool loser =
         rows[row].abs() == boardSize ||
         cols[col].abs() == boardSize ||
         diag.abs() == boardSize ||
         antiDiag.abs() == boardSize;
 
-    if (winner) {
-      _showWinDialog(displayXO[index]); //whichever index has won
+    if (loser) {
+      if (displayXO[index] == "X") {
+        _showWinDialog("O");
+      } else {
+        _showWinDialog("X");
+      }
       return;
     }
     if (!displayXO.contains(" ")) {
