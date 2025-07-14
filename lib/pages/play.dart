@@ -70,27 +70,27 @@ class PlayPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20.0),
-            SizedBox(
-              height: 100.0,
-              width: double.infinity,
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const Gobbletgobblers(),
-                    ),
-                  );
-                },
-                label: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    "Gobblet Gobblers",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
+            // const SizedBox(height: 20.0),
+            // SizedBox(
+            //   height: 100.0,
+            //   width: double.infinity,
+            //   child: FloatingActionButton.extended(
+            //     onPressed: () {
+            //       Navigator.of(context).push(
+            //         MaterialPageRoute(
+            //           builder: (context) => const Gobbletgobblers(),
+            //         ),
+            //       );
+            //     },
+            //     label: const Padding(
+            //       padding: EdgeInsets.symmetric(horizontal: 16.0),
+            //       child: Text(
+            //         "Gobblet Gobblers",
+            //         style: TextStyle(fontSize: 16),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

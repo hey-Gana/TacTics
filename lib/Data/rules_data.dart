@@ -3,17 +3,25 @@
 const List classicTTT = [
   "The game is played on a grid that's 3 squares by 3 squares.",
   "You are X , your friend is O . Players take turns putting their marks in empty squares.",
-  "The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.",
+  "The first player to get 3 of their marks in a row (up, down, across, or diagonally) is the winner.",
   "When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.",
 ];
 
 const List tttLock = [
   "The game is played on a grid that's 3 squares by 3 squares.",
-  "You are X, your friend is O. Players take turns placing their marks in empty squares.",
-  "Each player has only 3 marks. After all 3 are placed, placing a new mark will remove the oldest one.",
-  "The tile where the oldest mark was removed becomes inactive (greyed out) and can no longer be used.",
-  "The first player to get 3 of their marks in a row (across, down, or diagonally) wins the game.",
-  "If all remaining tiles are inactive and no one has 3 in a row, the game ends in a tie.",
+  "You are X, your friend is O. Players take turns putting their marks in empty squares.",
+  "Each player can have only 3 marks on the board at a time. After placing the fourth mark, the oldest mark is removed automatically.",
+  "The tile where the oldest mark was removed becomes locked for the rest of the player's turn and cannot be used again immediately.",
+  "The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.",
+];
+
+const List anti = [
+  "The game is played on a grid that's 3 squares by 3 squares.",
+  "You are X, your friend is O. Players take turns putting their marks in empty squares.",
+  "The goal is not to get 3 of your marks in a row (up, down, across, or diagonally).",
+  "If you make 3 in a row, you lose the game.",
+  "The game continues until all 9 squares are filled.",
+  "If neither player forms 3 in a row, the game ends in a draw.",
 ];
 
 const List gobbletgobblerTTT = [

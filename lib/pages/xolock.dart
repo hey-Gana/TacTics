@@ -117,7 +117,9 @@ class _XolockState extends State<Xolock> {
                           ),
                           color:
                               //if locked, it will be greyed out ; else it will be blue
-                              isLocked ? Colors.grey[700] : Colors.blueAccent,
+                              isLocked
+                                  ? Colors.grey[700]
+                                  : Color.fromARGB(255, 37, 60, 99),
                         ),
                         child: Center(
                           //Inside the tile

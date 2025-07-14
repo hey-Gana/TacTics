@@ -97,7 +97,7 @@ class _AntiPageState extends State<AntiPage> {
                             width: 5,
                             color: const Color.fromARGB(255, 19, 26, 34),
                           ),
-                          color: Colors.blueAccent,
+                          color: const Color.fromARGB(255, 37, 60, 99),
                         ),
                         child: Center(
                           child: Text(

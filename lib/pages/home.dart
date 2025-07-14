@@ -34,10 +34,10 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 20),
               const Text(
                 "TacTics",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               ),
               const Text(
-                "Competitive twists on classic Tic Tac Toe",
+                "Competitive twists on classic Tic-Tac-Toe!",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
               ),
             ],

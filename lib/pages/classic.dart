@@ -96,7 +96,7 @@ class _ClassicPageState extends State<ClassicPage> {
                             width: 5,
                             color: const Color.fromARGB(255, 19, 26, 34),
                           ),
-                          color: Colors.blueAccent,
+                          color: const Color.fromARGB(255, 37, 60, 99),
                         ),
                         child: Center(
                           //inside the tile
@@ -162,7 +162,8 @@ class _ClassicPageState extends State<ClassicPage> {
     //checking for anti-diagnals - anti diag counter
     if (row + col == boardSize - 1) antiDiag += add;
 
-    //if any of the values are equal to board size, then declare as winner
+    //if any of the ABSOLUTE values are equal to board size, then declare as winner the value present in the index
+    //winner becomes true if boardsize is matched by any of the counters
     bool winner =
         rows[row].abs() == boardSize ||
         cols[col].abs() == boardSize ||
@@ -174,6 +175,7 @@ class _ClassicPageState extends State<ClassicPage> {
       return;
     }
     if (!displayXO.contains(" ")) {
+      //if all the boxes are filled -  it is draw
       _showDrawDialog();
     }
   }

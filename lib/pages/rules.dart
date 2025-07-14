@@ -46,10 +46,10 @@ class _RulesPageState extends State<RulesPage> {
             ),
             SizedBox(height: 20.0),
             ExpansionTile(
-              title: Center(child: Text("Gobblet Gobblers")),
+              title: Center(child: Text("Anti Tic-Tac-Toe")),
               collapsedBackgroundColor: const Color.fromARGB(255, 30, 63, 120),
               children:
-                  gobbletgobblerTTT.map((point) {
+                  anti.map((point) {
                     return ListTile(
                       leading: Icon(Icons.circle, size: 8),
                       title: Text(point),
@@ -57,6 +57,19 @@ class _RulesPageState extends State<RulesPage> {
                     );
                   }).toList(),
             ),
+            // SizedBox(height: 20.0),
+            // ExpansionTile(
+            //   title: Center(child: Text("Gobblet Gobblers")),
+            //   collapsedBackgroundColor: const Color.fromARGB(255, 30, 63, 120),
+            //   children:
+            //       gobbletgobblerTTT.map((point) {
+            //         return ListTile(
+            //           leading: Icon(Icons.circle, size: 8),
+            //           title: Text(point),
+            //           visualDensity: VisualDensity.comfortable,
+            //         );
+            //       }).toList(),
+            // ),
           ],
         ),
       ),
