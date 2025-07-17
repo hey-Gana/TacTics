@@ -13,7 +13,8 @@ A modern twist on Tic-Tac-Toe with stacking! Use you tactics to win the games.
 - Gobblers Gobblet : 3 different sizes (small, medium, large) gobble up opponents peices to make 3 in a row (up, down, across, or diagonally).
   
 ### Access to APK file:
-- Click on the [link](https://drive.google.com/drive/folders/1msKnhcO-XBbn1beACiwYg6lNOT84jC8Z?usp=share_link) to get access to drive link for the apk.
+- Click on the [link](https://drive.google.com/drive/folders/1msKnhcO-XBbn1beACiwYg6lNOT84jC8Z?usp=sharing) to get access to drive link for the apk.
 - Download the apk and allow permissions to install in your phone. [NOTE: Built only for Android]
 - After installation, the app is ready to use. 
 
+### Highlights:
