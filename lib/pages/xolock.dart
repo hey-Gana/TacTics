@@ -41,6 +41,7 @@ class _XolockState extends State<Xolock> {
     //empty list of xmoves and omoves
     xMoves.clear();
     oMoves.clear();
+    //temp index is null
     tempLockedIndex = null;
   }
 
@@ -190,7 +191,7 @@ class _XolockState extends State<Xolock> {
       _checkWinner(index);
 
       xTurn = !xTurn;
-      _updateLockedTile();
+      _updateLockedTile(); //reassigns temp index to null
     });
   }
 

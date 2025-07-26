@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gobblets_gobblers_game/pages/anti.dart';
+import 'package:gobblets_gobblers_game/pages/antiai.dart';
 import 'package:gobblets_gobblers_game/pages/classic.dart';
+import 'package:gobblets_gobblers_game/pages/classicai.dart';
 import 'package:gobblets_gobblers_game/pages/gobbletgobblers.dart';
 import 'package:gobblets_gobblers_game/pages/xolock.dart';
 
@@ -21,9 +23,7 @@ class PlayPage extends StatelessWidget {
               child: FloatingActionButton.extended(
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const ClassicPage(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const Classicai()),
                   );
                 },
                 label: const Padding(
@@ -58,7 +58,7 @@ class PlayPage extends StatelessWidget {
               child: FloatingActionButton.extended(
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const AntiPage()),
+                    MaterialPageRoute(builder: (context) => const Antiai()),
                   );
                 },
                 label: const Padding(
