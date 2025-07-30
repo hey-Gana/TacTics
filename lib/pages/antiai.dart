@@ -8,11 +8,12 @@ class Antiai extends StatefulWidget {
 }
 
 class _AntiaiState extends State<Antiai> {
-  final int boardSize = 3;
-  late List<String> displayXO;
-  bool xTurn = true;
+  final int boardSize = 3; //board size
+  late List<String> displayXO; // Array of positions on board
+  bool xTurn = true; // X plays first turn
 
   @override
+  //Initial state -fresh board
   void initState() {
     super.initState();
     _resetGame();
@@ -38,12 +39,14 @@ class _AntiaiState extends State<Antiai> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  'Turn: ${xTurn ? "X (You)" : "O (AI)"}',
+                  //if it is X's turn or Ai's turn
+                  'Turn: ${xTurn ? "X (You)" : "O (Computer)"}',
                   style: const TextStyle(fontSize: 30),
                 ),
               ),
               Expanded(
                 flex: 5,
+                //Create the grid for anti-TTT
                 child: GridView.builder(
                   itemCount: boardSize * boardSize,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -52,6 +55,7 @@ class _AntiaiState extends State<Antiai> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap:
+                          //if it is X's turn and cell is empty, fill it with X
                           xTurn && displayXO[index] == ' '
                               ? () => _tapped(index)
                               : null,
@@ -100,45 +104,60 @@ class _AntiaiState extends State<Antiai> {
     );
   }
 
+  //Tap function
   void _tapped(int index) {
+    //if it is not X's turn, return
     if (!xTurn || displayXO[index] != ' ') return;
 
+    //if it is X's turn, set index to 'X' and flip to O's turn
     setState(() {
       displayXO[index] = 'X';
       xTurn = false;
     });
 
+    //Check if the move is a winning move by X
     var result = _checkGameOver();
 
+    //After X's turn, let computer play with a delay of 1 second
     if (result == null) {
-      Future.delayed(const Duration(milliseconds: 400), () {
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        //call computerMove()
         _computerMove();
       });
     }
   }
 
+  //X is minimizer and O is maximizer for Anti- Tic tac toe
   void _computerMove() async {
+    //feeds minimum score for O ~ worst case scenario
     int bestScore = -1000;
     int bestMove = -1;
-
+    //for the array of board, try 'O' in the place and calculate _minimax().
+    //Choose the maximizing score board for computer's turn
     for (int i = 0; i < displayXO.length; i++) {
+      //if the position is empty
       if (displayXO[i] == ' ') {
+        //put 'O' in the position
         displayXO[i] = 'O';
+        //check score using minimax algorithm
         int score = _minimax(displayXO, false);
+        //undo the move
         displayXO[i] = ' ';
+        //picks the maximum score for best move for 'O'
         if (score > bestScore) {
           bestScore = score;
           bestMove = i;
         }
       }
     }
-
+    //Once move is made, set state to the best move
     if (bestMove != -1) {
       setState(() {
         displayXO[bestMove] = 'O';
+        //set it to X's turn
         xTurn = true;
       });
-
+      //Check if it is the winning move for 'O'
       _checkGameOver();
     }
   }
@@ -147,47 +166,63 @@ class _AntiaiState extends State<Antiai> {
   /// +10: the O-player FORCES the X-player to create 3-in-a-row (so AI wins)
   /// -10: the X-player FORCES the O-player to create 3-in-a-row (so Player wins)
   ///  0: draw
+  // X tries to minimize, O tries to maximize.
+  //Adverserial search - recurrsive to simulate all board possibilities and assigns points for it.
   int _minimax(List<String> board, bool isMaximizing) {
     String? result = _whoLost(board);
 
     // If someone has already created a line, that player LOSES, the other player is winner
     if (result != null) {
-      if (result == 'X') return 10;
-      if (result == 'O') return -10;
+      if (result == 'X') return 10; // better to win early
+      if (result == 'O') return -10; //better to lose late
       return 0;
     }
-
+    //if board is full, returns 0
     if (!board.contains(' ')) {
       return 0;
     }
-
+    // O's turn
     if (isMaximizing) {
+      //starts with the worst case by having the least score
       int bestScore = -1000;
       for (int i = 0; i < board.length; i++) {
         if (board[i] == ' ') {
+          // if space is blank:
+          //Place O in the blank
           board[i] = 'O';
+          //recursively calling minimax for 'X'
           int score = _minimax(board, false);
+          //undoing the move
           board[i] = ' ';
+          //Maximizing score for O
           bestScore = score > bestScore ? score : bestScore;
         }
       }
       return bestScore;
-    } else {
+    }
+    //X's turn
+    else {
+      //starts with the worst case by having the maximum score
       int bestScore = 1000;
       for (int i = 0; i < board.length; i++) {
+        // if space is blank:
         if (board[i] == ' ') {
+          //Place X in the blank
           board[i] = 'X';
+          //recursively calling minimax for 'O'
           int score = _minimax(board, true);
+          //undoing the move
           board[i] = ' ';
+          //Minimizing score for X
           bestScore = score < bestScore ? score : bestScore;
         }
       }
+      //returns the maximum score of each board simulation
       return bestScore;
     }
   }
 
-  // Logic: If someone creates a line, return their symbol (they LOSE!)
-  // Return null if no one has lost yet
+  // Check's loser : if they get 3 in a line(r,c or dia)
   String? _whoLost(List<String> b) {
     // check rows
     for (int i = 0; i < 3; i++) {
@@ -213,6 +248,7 @@ class _AntiaiState extends State<Antiai> {
     return null;
   }
 
+  //Displays result
   String? _checkGameOver() {
     String? lost = _whoLost(displayXO);
     if (lost != null) {
@@ -220,6 +256,7 @@ class _AntiaiState extends State<Antiai> {
       _showDialog("$winner wins! $lost created a line and loses.");
       return winner;
     }
+    //Even if _whoWon() return null, display shouldn't contain " "
     if (!displayXO.contains(' ')) {
       _showDialog("Draw! No one lost.");
       return "draw";
@@ -227,6 +264,7 @@ class _AntiaiState extends State<Antiai> {
     return null;
   }
 
+  //After game ends - show alert dialog box
   void _showDialog(String message) {
     showDialog(
       context: context,
@@ -247,9 +285,13 @@ class _AntiaiState extends State<Antiai> {
     );
   }
 
+  //reset the board
   void _resetGame() {
+    //make an empty array
     displayXO = List.filled(boardSize * boardSize, ' ');
+    //assign X turn as true
     xTurn = true;
+    //sets that as the state
     setState(() {});
   }
 

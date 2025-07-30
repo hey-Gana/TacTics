@@ -1,29 +1,55 @@
 import 'package:flutter/material.dart';
 
-class Classicai extends StatefulWidget {
-  const Classicai({Key? key}) : super(key: key);
+class Xolockai extends StatefulWidget {
+  const Xolockai({super.key});
 
   @override
-  State<Classicai> createState() => _ClassicaiState();
+  State<Xolockai> createState() => _XolockaiState();
 }
 
-class _ClassicaiState extends State<Classicai> {
-  final int boardSize = 3; //Board Size
+class _XolockaiState extends State<Xolockai> {
+  final int boardSize = 3; //Board size
   late List<String> displayXO; //Array of positions
-  bool xTurn = true; //X is first player
+  bool xTurn = true; //First player is X
 
+  List<int> xMoves = []; //keeps track of X's moves
+  List<int> oMoves = []; // Keeps track of O's moves
+
+  //Temporary index to hold the first position for 3+th turns
+  int? tempLockedIndex;
+
+  //Initialize state - fresh board
   @override
-  //Initial state - fresh board
   void initState() {
     super.initState();
-    _resetGame();
+    _initializeBoard();
+  }
+
+  //Assigns empty list for displayXO and empties xMoves and oMoves & assigns temporary lock index to Null
+  void _initializeBoard() {
+    displayXO = List.filled(boardSize * boardSize, ' ');
+    xMoves.clear();
+    oMoves.clear();
+    tempLockedIndex = null;
+  }
+
+  // Lock the first tile after 3 moves
+  void _updateLockedTile() {
+    // locking for current player, called after move is made
+    if (xTurn && xMoves.length == 3) {
+      tempLockedIndex = xMoves.first;
+    } else if (!xTurn && oMoves.length == 3) {
+      tempLockedIndex = oMoves.first;
+    } else {
+      tempLockedIndex = null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Classic Tic-Tac-Toe")),
+        title: const Center(child: Text("Tic-Tac-Lock")),
         actions: [
           IconButton(
             onPressed: _showRules,
@@ -45,35 +71,42 @@ class _ClassicaiState extends State<Classicai> {
               ),
               Expanded(
                 flex: 5,
-                //creating the grid for TTT
+                //Creating grid for tictaclock
                 child: GridView.builder(
                   itemCount: boardSize * boardSize,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: boardSize,
                   ),
-                  itemBuilder: (context, index) {
+                  itemBuilder: (BuildContext context, int index) {
+                    final isLocked = index == tempLockedIndex;
                     return GestureDetector(
                       onTap:
                           //if it is xturn and cell is empty, fill it with X
-                          xTurn && displayXO[index] == ' '
+                          xTurn &&
+                                  displayXO[index] == ' ' &&
+                                  //if tempLockedIndex is null
+                                  (tempLockedIndex == null ||
+                                      index != tempLockedIndex)
                               ? () => _tapped(index)
                               : null,
                       child: Container(
-                        margin: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
                             width: 5,
                             color: const Color.fromARGB(255, 19, 26, 34),
                           ),
-                          color: const Color.fromARGB(255, 37, 60, 99),
+                          color:
+                              isLocked
+                                  ? Colors.grey[700]
+                                  : Color.fromARGB(255, 37, 60, 99),
                         ),
                         child: Center(
                           child: Text(
-                            displayXO[index],
-                            style: const TextStyle(
+                            displayXO[index] == ' ' ? '' : displayXO[index],
+                            style: TextStyle(
                               fontSize: 64,
-                              color: Colors.white,
+                              color: isLocked ? Colors.grey[300] : Colors.white,
                             ),
                           ),
                         ),
@@ -95,7 +128,7 @@ class _ClassicaiState extends State<Classicai> {
                   ),
                 ),
               ),
-              const SizedBox(height: 100.0),
+              const SizedBox(height: 100),
             ],
           ),
         ),
@@ -103,29 +136,40 @@ class _ClassicaiState extends State<Classicai> {
     );
   }
 
-  //Tap function -
+  // Tap function -
   void _tapped(int index) {
     //if it is not X's turn, return
-    if (!xTurn || displayXO[index] != ' ') return;
+    if (!xTurn || displayXO[index] != ' ' || (tempLockedIndex == index)) return;
 
-    //if it is X's turn, set index to X and flip it to O's turn
     setState(() {
+      // If player already placed 3, remove oldest
+      if (xMoves.length == 3) {
+        int removed = xMoves.removeAt(0);
+        _removePiece(removed);
+      }
+      //if it is X's turn, set index to X
       displayXO[index] = 'X';
+      //add the index to xmoves list
+      xMoves.add(index);
+      //updated the locked tiles
+      _updateLockedTile();
+      //flip it to O's turn
       xTurn = false;
     });
-    //Check if the move is a winning move by X
+    // Check for win
     final result = _checkGameOver();
-    //After X's turn, let computer play with a delay of 1 second
+
     if (result == null) {
+      // Let computer play after delay
       Future.delayed(const Duration(milliseconds: 1000), () {
-        //call computerMove()
         _computerMove();
       });
     }
   }
 
+  // AI's move for O
   //X is maximizer and O is minimizer
-  void _computerMove() async {
+  void _computerMove() {
     //feeds maximum score for O ~ worst case scenario
     int bestScore = 1000;
     int bestMove = -1;
@@ -134,7 +178,8 @@ class _ClassicaiState extends State<Classicai> {
     //Choose the minimizing score board for computer's turn
     for (int i = 0; i < displayXO.length; i++) {
       //if the position is empty
-      if (displayXO[i] == ' ') {
+      if (displayXO[i] == ' ' &&
+          (tempLockedIndex == null || i != tempLockedIndex)) {
         //put 'O' in the position
         displayXO[i] = 'O';
         //check score using minimax algorithm
@@ -148,17 +193,21 @@ class _ClassicaiState extends State<Classicai> {
         }
       }
     }
-
     //Once move is made, set state to the best move
-    if (bestMove != -1) {
-      setState(() {
-        displayXO[bestMove] = 'O';
-        //make it X's turn
-        xTurn = true;
-      });
-      //check if it is the winning move for 'O'
-      _checkGameOver();
-    }
+    setState(() {
+      if (oMoves.length == 3) {
+        //remove the first element
+        int removed = oMoves.removeAt(0);
+        _removePiece(removed);
+      }
+
+      displayXO[bestMove] = 'O';
+      oMoves.add(bestMove);
+      xTurn = true;
+      _updateLockedTile();
+    });
+    //check if it is the winning move for 'O'
+    _checkGameOver();
   }
 
   // X tries to maximize, O tries to minimize.
@@ -174,7 +223,6 @@ class _ClassicaiState extends State<Classicai> {
     if (!board.contains(' ')) {
       return 0;
     }
-
     // X's turn
     if (isMaximizing) {
       //starts with the worst case by having the least score
@@ -189,7 +237,7 @@ class _ClassicaiState extends State<Classicai> {
           //undoing the move
           board[i] = ' ';
           //Maximizing score for X
-          bestScore = score > bestScore ? score : bestScore;
+          if (score > bestScore) bestScore = score;
         }
       }
       //returns the maximum score of each board simulation
@@ -209,12 +257,19 @@ class _ClassicaiState extends State<Classicai> {
           //undoing the move
           board[i] = ' ';
           //Minimizing score for O
-          bestScore = score < bestScore ? score : bestScore;
+          if (score < bestScore) bestScore = score;
         }
       }
       //returns the minimum score of each board simulation
       return bestScore;
     }
+  }
+
+  // Removes piece from given spot
+  void _removePiece(int index) {
+    setState(() {
+      displayXO[index] = ' ';
+    });
   }
 
   //Check's winner
@@ -283,9 +338,11 @@ class _ClassicaiState extends State<Classicai> {
 
   //Reset the board - assign empty array
   void _resetGame() {
-    displayXO = List.filled(boardSize * boardSize, ' ');
-    xTurn = true;
-    setState(() {});
+    setState(() {
+      _initializeBoard();
+      xTurn = true;
+      _updateLockedTile();
+    });
   }
 
   //rules dialog box
@@ -302,45 +359,60 @@ class _ClassicaiState extends State<Classicai> {
                 borderRadius: BorderRadius.circular(20),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
-                  height: 320,
-                  child: const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Classic Tic-Tac-Toe Rules",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 18),
-                        Text(
-                          "• Players take turns placing their symbol (X or O) on an empty cell.",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "• The first player to get three of their marks in a row (vertically, horizontally, or diagonally) wins the game.",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "• If all spaces are filled and nobody has three in a row, the game ends in a draw.",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                        Spacer(),
-                        Center(
-                          child: Text(
-                            "Try to get 3 in a row!",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 59, 123, 175),
+                  height: 280,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Scrollbar(
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              "Tic-Tac-Lock Rules",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
+                            SizedBox(height: 14),
+                            Text(
+                              "• Take turns placing X or O on empty, unlocked cells.",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "• Each player can have at most 3 marks on the board.",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "• After 3 marks, the oldest mark is locked (grayed out).",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "• On your 4th move, your oldest mark is removed before placing a new one.",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "• First to line up 3 wins. There is NO draw",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 10),
+                            Center(
+                              child: Text(
+                                "Try and make 3 in a row!",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 59, 123, 175),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
