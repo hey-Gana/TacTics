@@ -52,30 +52,7 @@ class _XolockState extends State<Xolock> {
         title: const Center(child: Text("Tic-Tac-Lock")),
         actions: [
           IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder:
-                    (context) => Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 60),
-                        child: Material(
-                          elevation: 4,
-                          borderRadius: BorderRadius.circular(20),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: 400,
-                            child: const Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: RulesPage(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-              );
-            },
+            onPressed: _showRules,
             icon: const Icon(Icons.model_training_rounded),
           ),
         ],
@@ -255,5 +232,81 @@ class _XolockState extends State<Xolock> {
       xTurn = true;
       _updateLockedTile();
     });
+  }
+
+  void _showRules() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 60),
+              child: Material(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 280,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Scrollbar(
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              "Tic-Tac-Lock Rules",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 14),
+                            Text(
+                              "• Take turns placing X or O on empty, unlocked cells.",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "• Each player can have at most 3 marks on the board.",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "• After 3 marks, the oldest mark is locked (grayed out).",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "• On your 4th move, your oldest mark is removed before placing a new one.",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "• First to line up 3 wins. There is NO draw",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(height: 10),
+                            Center(
+                              child: Text(
+                                "Try and make 3 in a row!",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 59, 123, 175),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+    );
   }
 }

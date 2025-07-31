@@ -35,32 +35,7 @@ class _ClassicPageState extends State<ClassicPage> {
         title: Center(child: const Text("Classic Tic-Tac-Toe")),
         actions: [
           IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder:
-                    (context) => Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 60,
-                        ), // distance from top
-                        child: Material(
-                          elevation: 4,
-                          borderRadius: BorderRadius.circular(20),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: 400,
-                            child: const Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: RulesPage(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-              );
-            },
+            onPressed: _showRules,
             icon: Icon(Icons.model_training_rounded),
           ),
         ],
@@ -230,5 +205,66 @@ class _ClassicPageState extends State<ClassicPage> {
       antiDiag = 0;
       xturn = true;
     });
+  }
+
+  void _showRules() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 60),
+              child: Material(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 320,
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Classic Tic-Tac-Toe Rules",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 18),
+                        Text(
+                          "• Players take turns placing their symbol (X or O) on an empty cell.",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "• The first player to get three of their marks in a row (vertically, horizontally, or diagonally) wins the game.",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "• If all spaces are filled and nobody has three in a row, the game ends in a draw.",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        Spacer(),
+                        Center(
+                          child: Text(
+                            "Try to get 3 in a row!",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 59, 123, 175),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+    );
   }
 }

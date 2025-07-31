@@ -21,7 +21,7 @@ class _RulesPageState extends State<RulesPage> {
             SizedBox(height: 20.0),
             ExpansionTile(
               title: Center(child: Text("Classic Tic-Tac-Toe")),
-              collapsedBackgroundColor: const Color.fromARGB(255, 30, 63, 120),
+              collapsedBackgroundColor: const Color.fromARGB(255, 37, 60, 99),
               children:
                   classicTTT.map((point) {
                     return ListTile(
@@ -34,7 +34,7 @@ class _RulesPageState extends State<RulesPage> {
             SizedBox(height: 20.0),
             ExpansionTile(
               title: Center(child: Text("Tic-Tac-Lock")),
-              collapsedBackgroundColor: const Color.fromARGB(255, 30, 63, 120),
+              collapsedBackgroundColor: const Color.fromARGB(255, 37, 60, 99),
               children:
                   tttLock.map((point) {
                     return ListTile(
@@ -47,7 +47,7 @@ class _RulesPageState extends State<RulesPage> {
             SizedBox(height: 20.0),
             ExpansionTile(
               title: Center(child: Text("Anti Tic-Tac-Toe")),
-              collapsedBackgroundColor: const Color.fromARGB(255, 30, 63, 120),
+              collapsedBackgroundColor: const Color.fromARGB(255, 37, 60, 99),
               children:
                   anti.map((point) {
                     return ListTile(

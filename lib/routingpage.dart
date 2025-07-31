@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gobblets_gobblers_game/Data/notifiers.dart';
+import 'package:gobblets_gobblers_game/pages/gameselection.dart';
 import 'package:gobblets_gobblers_game/pages/home.dart';
 import 'package:gobblets_gobblers_game/pages/play.dart';
 import 'package:gobblets_gobblers_game/pages/rules.dart';
@@ -36,7 +37,11 @@ class RoutingPage extends StatefulWidget {
 
 class _RoutingPageState extends State<RoutingPage> {
   //List of pages in the app
-  final List<Widget> pages = const [HomePage(), RulesPage(), PlayPage()];
+  final List<Widget> pages = const [
+    HomePage(),
+    RulesPage(),
+    GameSelectionPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {

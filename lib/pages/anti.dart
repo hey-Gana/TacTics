@@ -36,32 +36,7 @@ class _AntiPageState extends State<AntiPage> {
         title: Center(child: const Text("Anti Tic-Tac-Toe")),
         actions: [
           IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder:
-                    (context) => Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 60,
-                        ), // distance from top
-                        child: Material(
-                          elevation: 4,
-                          borderRadius: BorderRadius.circular(20),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: 400,
-                            child: const Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: RulesPage(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-              );
-            },
+            onPressed: _showRules,
             icon: Icon(Icons.model_training_rounded),
           ),
         ],
@@ -231,5 +206,66 @@ class _AntiPageState extends State<AntiPage> {
       antiDiag = 0;
       xturn = true;
     });
+  }
+
+  void _showRules() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 60),
+              child: Material(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 320,
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Anti Tic-Tac-Toe Rules",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 18),
+                        Text(
+                          "• On your turn, pick an empty cell.",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "• Do NOT make three in a row!",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "• If you do, you lose. If both avoid it, it's a draw.",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        Spacer(),
+                        Center(
+                          child: Text(
+                            "Do NOT get 3 in a row!",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 59, 123, 175),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+    );
   }
 }
