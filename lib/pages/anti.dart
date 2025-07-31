@@ -1,6 +1,5 @@
 //Need to change to suit Anti Tic Tac Rules
 import 'package:flutter/material.dart';
-import 'package:gobblets_gobblers_game/pages/rules.dart';
 
 class AntiPage extends StatefulWidget {
   const AntiPage({super.key});
@@ -111,7 +110,7 @@ class _AntiPageState extends State<AntiPage> {
     setState(() {
       if (xturn && displayXO[index] == ' ') {
         displayXO[index] = "X";
-      } else {
+      } else if (!xturn && displayXO[index] == ' ') {
         displayXO[index] = "O";
       }
       _checkWinner(index);

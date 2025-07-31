@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gobblets_gobblers_game/pages/rules.dart';
 
 class ClassicPage extends StatefulWidget {
   const ClassicPage({super.key});
@@ -112,7 +111,7 @@ class _ClassicPageState extends State<ClassicPage> {
     setState(() {
       if (xturn && displayXO[index] == ' ') {
         displayXO[index] = "X";
-      } else {
+      } else if (!xturn && displayXO[index] == ' ') {
         displayXO[index] = "O";
       }
       _checkWinner(index);

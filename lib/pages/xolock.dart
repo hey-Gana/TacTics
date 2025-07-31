@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gobblets_gobblers_game/pages/rules.dart';
 
 class Xolock extends StatefulWidget {
   const Xolock({super.key});
